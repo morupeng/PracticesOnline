@@ -33,6 +33,12 @@ public class SplashFragment extends BaseFragment {
     }
 
     @Override
+    public void handlePracticeExtion(String message) {
+
+    }
+
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnSplashFinishedListener){

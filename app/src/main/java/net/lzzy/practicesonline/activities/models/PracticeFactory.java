@@ -52,7 +52,7 @@ public class PracticeFactory {
 
     private boolean isPracticeInDb(Practice practice) {
         try {
-            return repository.getByKeyword(String.valueOf(practice.getApild()),
+            return repository.getByKeyword(String.valueOf(practice.getApiId()),
                     new String[]{Practice.COL_API_ID}, true).size() > 0;
         } catch (IllegalAccessException | InstantiationException e) {
             e.fillInStackTrace();
