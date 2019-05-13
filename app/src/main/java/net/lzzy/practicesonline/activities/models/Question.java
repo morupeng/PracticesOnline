@@ -19,6 +19,7 @@ import java.util.UUID;
  * Description:
  */
 public class Question extends BaseEntity implements Sqlitable, Jsonable {
+    @Ignored
     public static final  String COL_PRACTICE_ID ="practiceId";
     private String content;
     @Ignored
@@ -56,6 +57,10 @@ public class Question extends BaseEntity implements Sqlitable, Jsonable {
     public void setDbType(int dbType) {
         this.dbType = dbType;
         type = QuestionType.getQuestionType(dbType);
+    }
+
+    private String getAnalysis(){
+        return analysis;
     }
 
     public String getAnalysls() {

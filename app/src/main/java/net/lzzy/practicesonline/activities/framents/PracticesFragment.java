@@ -366,11 +366,17 @@ public class PracticesFragment extends BaseFragment {
             listener.OnPractice(practice.getId().toString(),practice.getApiId());
             //todo:跳转Question视图
         }else {
-            new AlertDialog.Builder(getContext())
-                    .setMessage("下载该章节节目题目吗？")
-                    .setPositiveButton("下载",(dialog, which) -> downloadQuestions(practice.getApiId()))
-                    .setNegativeButton("取消",null)
-                    .show();
+            if (practice.isDownloaded()){
+
+            }else {
+
+
+                new AlertDialog.Builder(getContext())
+                        .setMessage("下载该章节节目题目吗？")
+                        .setPositiveButton("下载", (dialog, which) -> downloadQuestions(practice.getApiId()))
+                        .setNegativeButton("取消", null)
+                        .show();
+            }
         }
     }
 

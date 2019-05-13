@@ -12,14 +12,14 @@ import java.util.UUID;
 public class Favorite extends BaseEntity implements Sqlitable {
     @Ignored
     public static final String COL_QUESTION_ID = "questionId";
-    private UUID question;
+    private UUID questionId;
 
     public UUID getQuestionId() {
-        return question;
+        return questionId;
     }
 
-    public void setQuestionId(UUID question) {
-        this.question = question;
+    public void setQuestionId(UUID questionId) {
+        this.questionId = questionId;
     }
 
 

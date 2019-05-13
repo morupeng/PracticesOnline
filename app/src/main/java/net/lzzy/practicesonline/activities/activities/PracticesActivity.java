@@ -30,7 +30,7 @@ import net.lzzy.practicesonline.activities.utils.ViewUtils;
 public class PracticesActivity extends BaseActivity implements PracticesFragment.OnPracticeListener{
 
     public static final String EXTRA_PRACTICE_ID = "practiceId";
-    public static final String EXTRA_API_ID = "practiceId";
+    public static final String EXTRA_API_ID = "apiId";
     public static final String EXTRA_LOCAL_COUNT = "extraLocalCount";
     private ServiceConnection connection;
     private boolean refresh = false;

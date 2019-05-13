@@ -61,7 +61,7 @@ public class FavoriteFactory {
         }
     }
 
-    public void cancelStraQuestion(UUID questionId){
+    public void cancelStarQuestion(UUID questionId){
         Favorite favorite = getByQuestion(questionId.toString());
         if (favorite != null){
             repository.delete(favorite);
