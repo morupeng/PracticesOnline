@@ -76,7 +76,7 @@ public class UserCookies {
         return spPosition.getInt(questionId, 0);
     }
 
-    private int getReadCount(String questionId) {
+    public int getReadCount(String questionId) {
         return spReadCount.getInt(questionId, 0);
     }
 
@@ -140,7 +140,7 @@ public class UserCookies {
     }
 
     private Pair<Boolean, WrongType> isUserRight(String checkedIds, Question question) {
-        //todo:计算是否正确
+        //todo:计算正确
         boolean miss = false, extra = false;
         for (Option option : question.getOptions()) {
             if (option.isAnswer()) {
@@ -149,7 +149,7 @@ public class UserCookies {
                 }
             } else {
                 if (checkedIds.contains(option.getId().toString())) {
-                    extra = false;
+                    extra = true;
                 }
             }
         }
@@ -160,38 +160,35 @@ public class UserCookies {
         } else if (extra) {
             return new Pair<>(false, WrongType.EXTRA_OPTIONS);
         } else {
-            return new Pair<>(false, WrongType.RIGHT_OPTIONS);
+            return new Pair<>(true, WrongType.RIGHT_OPTIONS);
         }
     }
 
-
-
     private WrongType getWrongType(String checkedIds, Question question) {
-        //todo:计算错误类型
+        //todo:计算错误
         boolean miss = false, extra = false;
         for (Option option : question.getOptions()) {
             if (option.isAnswer()) {
                 if (!checkedIds.contains(option.getId().toString())) {
                     miss = true;
-                }
-            }else {
-                if (checkedIds.contains(option.getId().toString())){
-                    extra = true;
+                } else {
+                    if (checkedIds.contains(option.getId().toString())) {
+                        extra = true;
+                    }
                 }
             }
-        }
-        if (miss && extra){
-            return  WrongType.WRONG_OPTIONS;
-        } else if (miss){
-            return WrongType.MISS_OPTIONS;
-        } else if (miss){
-            return WrongType.EXTRA_OPTIONS;
-        } else if (miss){
-            return WrongType.RIGHT_OPTIONS;
+            if (miss && extra) {
+                return WrongType.WRONG_OPTIONS;
+            } else if (miss) {
+                return WrongType.MISS_OPTIONS;
+            } else if (extra) {
+                return WrongType.EXTRA_OPTIONS;
+            } else {
+                return WrongType.RIGHT_OPTIONS;
+            }
         }
         return null;
     }
-
 }
 
 

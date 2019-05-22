@@ -88,7 +88,7 @@ public class QuestionFragment extends BaseFragment {
                 }
             });
             //添加点击监听，选中了就要记录选项到文件sharedPreferences，取消选中则从文件中把该选项去掉
-            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             }
             rgOptions.addView(btn);
             //勾选，到文件中找是否在该选项的id，存在则勾选
@@ -101,7 +101,7 @@ public class QuestionFragment extends BaseFragment {
                 rgOptions.check(btn.getId());
             }
             if (isCommitted && option.isAnswer()){
-                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
                     btn.setTextColor(getResources().getColor(R.color.colorPrimary));
                 } else {
                     btn.setTextColor(getResources().getColor(R.color.colorPrimary));

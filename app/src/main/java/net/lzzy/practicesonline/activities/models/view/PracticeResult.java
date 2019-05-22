@@ -1,9 +1,7 @@
 package net.lzzy.practicesonline.activities.models.view;
 
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import net.lzzy.practicesonline.activities.constants.ApiConstants;
-import net.lzzy.practicesonline.activities.models.Question;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,18 +50,19 @@ public class PracticeResult {
 
     private String getWrongOrders(){
         //todo:错误题目的序号，比如1,3,4
-        int i = 0;
-        String ids = "";
-        for (QuestionResult result : results){
+        int i=0;
+        String ids="";
+        for (QuestionResult result:results){
             i++;
             if (!result.isRight()){
                 ids = ids.concat(i + SPLITTER);
             }
         }
         if (ids.endsWith(SPLITTER)){
-            ids = ids.substring(0,ids.length() -1);
+            ids = ids.substring(0,ids.length()-1);
         }
         return ids;
+
     }
 
     public JSONObject toJson() throws JSONException {

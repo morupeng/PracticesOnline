@@ -21,6 +21,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import net.lzzy.practicesonline.R;
 import net.lzzy.practicesonline.activities.framents.QuestionFragment;
+import net.lzzy.practicesonline.activities.models.FavoriteFactory;
 import net.lzzy.practicesonline.activities.models.Question;
 import net.lzzy.practicesonline.activities.models.QuestionFactory;
 import net.lzzy.practicesonline.activities.models.UserCookies;
@@ -107,6 +108,35 @@ public class QuestionActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //todo:返回查看数据（全部 or 收藏）
+        if (requestCode == REQUEST_CODE_RESULT &&
+        resultCode == ResultActivity.RESULT_CODE && data!=null){
+            assert data != null;
+            int pos=data.getIntExtra(ResultActivity.POSITION,-1);
+            pager.setCurrentItem(pos);
+        }
+
+        if (requestCode == REQUEST_CODE_RESULT && resultCode == CONTEXT_INCLUDE_CODE && data != null){
+            String pId = data.getStringExtra(ResultActivity.PRACTICE_ID);
+            if (!pId.isEmpty()){
+                List<Question> questionList = new ArrayList<>();
+                FavoriteFactory factory = FavoriteFactory.getInstance();
+                for (Question question:QuestionFactory.getInstance().getByPractice(pId)){
+                    if (factory.isQuestionStarred(question.getId().toString())){
+                        questionList.add(question);
+                    }
+                }
+                questions.clear();
+                questions.addAll(questionList);
+                initDots();
+                adapter.notifyDataSetChanged();
+                if (questions.size() > 0){
+                    pager.setCurrentItem(0);
+                    refreshDots(0);
+                }
+            }
+        }
+
     }
 
     //提交成绩
@@ -164,6 +194,7 @@ public class QuestionActivity extends AppCompatActivity {
                 case WHAT_OK:
                     questionActivity.isCommitted=true;
                     Toast.makeText(questionActivity, "提交成功", Toast.LENGTH_SHORT).show();
+                    UserCookies.getInstance().commitPractice(questionActivity.practiceId);
                     break;
                 case WHAT_NO:
                     Toast.makeText(questionActivity, "提交失败", Toast.LENGTH_SHORT).show();
@@ -193,7 +224,7 @@ public class QuestionActivity extends AppCompatActivity {
             tvDot.setLayoutParams(params);
             tvDot.setBackgroundResource(R.drawable.dot_style);
             tvDot.setTag(i);
-            tvDot.setOnClickListener(v -> pager.setCurrentItem((Integer) v.getTop()));
+            tvDot.setOnClickListener(v -> pager.setCurrentItem((Integer) v.getTag()));
             //todo:tvDot添加点击监听
             container.addView(tvDot);
             dots[i] = tvDot;
@@ -240,6 +271,7 @@ public class QuestionActivity extends AppCompatActivity {
         practiceId = getIntent().getStringExtra(PracticesActivity.EXTRA_PRACTICE_ID);
         apiId = getIntent().getIntExtra(PracticesActivity.EXTRA_API_ID,0);
         questions = QuestionFactory.getInstance().getByPractice(practiceId);
+        isCommitted=UserCookies.getInstance().isPracticeCommitted(practiceId);
         if (apiId < 0 || questions == null ||questions.size()==0){
             Toast.makeText(this,"no question",Toast.LENGTH_SHORT).show();
             finish();
